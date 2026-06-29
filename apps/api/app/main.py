@@ -1,21 +1,23 @@
 from fastapi import FastAPI
 
 from apps.api.app.api.router import api_router
+from apps.api.app.core.config import settings
 
 app = FastAPI(
-    title="ConvertFlow API",
-    description="API para convertir y comprimir archivos.",
-    version="0.1.0",
+    title=settings.app_name,
+    description=settings.app_description,
+    version=settings.app_version,
 )
 
 app.include_router(
     api_router,
-    prefix="/api",
+    prefix=settings.api_prefix,
 )
 
 
 @app.get("/", tags=["Root"])
 def root() -> dict[str, str]:
     return {
-        "message": "ConvertFlow API is running",
+        "message": f"{settings.app_name} is running",
+        "environment": settings.environment,
     }
